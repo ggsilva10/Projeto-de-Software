@@ -1,9 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Hábitos</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
 </head>
 <body>
-    <h1>Bem-vindo ao meu sistema de hábitos!</h1>
+    <main class="container">
+        <hgroup>
+            <h1>Meu Sistema de Hábitos</h1>
+            <h2>Um passo de cada vez para uma vida melhor.</h2>
+        </hgroup>
+
+        <article>
+            <header>
+                <strong>Adicionar Novo Hábito</strong>
+            </header>
+            <form action="{{ url_for('routes.add_habit') }}" method="POST">
+                <input type="text" name="habit_name" placeholder="Ex: Ler 10 páginas de um livro" required>
+                <button type="submit">Adicionar Hábito</button>
+            </form>
+        </article>
+
+        <article>
+            <header>
+                <strong>Meus Hábitos</strong>
+            </header>
+            {% if habits %}
+                <ul>
+                    {% for habit in habits %}
+                        <li>
+                            {{ habit.nome }} -
+                            <a href="{{ url_for('routes.complete_habit', habit_id=habit.id) }}" role="button" class="secondary outline btn-sm">
+                                Concluir Hoje
+                            </a>
+                            <a href="{{ url_for('routes.delete_habit', habit_id=habit.id) }}" role="button" class="contrast outline btn-sm">
+                                Excluir
+                            </a>
+                            <br>
+                            <small>Criado em: {{ habit.data_criacao.strftime('%d/%m/%Y') }}</small>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>Nenhum hábito cadastrado ainda. Comece adicionando um acima!</p>
+            {% endif %}
+        </article>
+    </main>
 </body>
 </html>
