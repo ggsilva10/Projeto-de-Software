@@ -9,7 +9,9 @@ main = Blueprint("routes", __name__)
 @main.route("/")
 def home():
     habits = Habit.query.all()
-    return render_template("index.html", habits=habits)
+    logs_hoje = HabitLog.query.filter_by(data_criacao=datetime.date.today()).all()
+    habitos_concluidos_hoje = {log.habit_id for log in logs_hoje}
+    return render_template("index.html", habits=habits, habitos_concluidos_hoje=habitos_concluidos_hoje)
 
 @main.route("/add_habit", methods=["POST"])
 def add_habit():
@@ -24,6 +26,8 @@ def add_habit():
 @main.route("/complete_habit/<int:habit_id>")
 def complete_habit(habit_id):
     log = HabitLog(habit_id=habit_id, status=True, data_criacao=datetime.date.today())
+    db.session.add(log)
+    db.session.commit()
     return redirect(url_for("routes.home"))
 
 @main.route("/delete_habit/<int:habit_id>")

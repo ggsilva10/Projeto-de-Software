@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Hábitos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
 </head>
+
 <body>
     <main class="container">
         <hgroup>
@@ -28,25 +30,39 @@
                 <strong>Meus Hábitos</strong>
             </header>
             {% if habits %}
-                <ul>
-                    {% for habit in habits %}
-                        <li>
-                            {{ habit.nome }} -
-                            <a href="{{ url_for('routes.complete_habit', habit_id=habit.id) }}" role="button" class="secondary outline btn-sm">
-                                Concluir Hoje
-                            </a>
-                            <a href="{{ url_for('routes.delete_habit', habit_id=habit.id) }}" role="button" class="contrast outline btn-sm">
-                                Excluir
-                            </a>
-                            <br>
-                            <small>Criado em: {{ habit.data_criacao.strftime('%d/%m/%Y') }}</small>
-                        </li>
-                    {% endfor %}
-                </ul>
+            <ul>
+                {% for habit in habits %}
+                <li>
+                    {{ habit.nome }}
+
+                    <span style="float: right;">
+                        {% if habit.id in habitos_concluidos_hoje %}
+                        <a role="button" class="secondary outline btn-sm"
+                            style="pointer-events: none; border-color: green; color: green;">
+                            ✅ Concluído
+                        </a>
+                        {% else %}
+                        <a href="{{ url_for('routes.complete_habit', habit_id=habit.id) }}" role="button"
+                            class="secondary outline btn-sm">
+                            Concluir
+                        </a>
+                        {% endif %}
+
+                        <a href="{{ url_for('routes.delete_habit', habit_id=habit.id) }}" role="button"
+                            class="contrast outline btn-sm">
+                            Excluir
+                        </a>
+                    </span>
+                    <br>
+                    <small>Criado em: {{ habit.data_criacao.strftime('%d/%m/%Y') }}</small>
+                </li>
+                {% endfor %}
+            </ul>
             {% else %}
-                <p>Nenhum hábito cadastrado ainda. Comece adicionando um acima!</p>
+            <p>Nenhum hábito cadastrado ainda. Comece adicionando um acima!</p>
             {% endif %}
         </article>
     </main>
 </body>
+
 </html>

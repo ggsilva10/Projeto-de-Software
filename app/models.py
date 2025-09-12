@@ -7,7 +7,7 @@ class Habit(db.Model):
    nome = db.Column(db.String(100), nullable=False)
    descricao = db.Column(db.String(200))
    data_criacao = db.Column(db.Date, default=datetime.date.today)
-   logs = db.relationship("HabitLog", back_populates="habit", lazy=True)
+   logs = db.relationship('HabitLog', back_populates='habit', lazy=True, cascade="all, delete-orphan")
 
 
 class HabitLog(db.Model): 
