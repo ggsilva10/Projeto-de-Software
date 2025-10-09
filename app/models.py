@@ -24,20 +24,20 @@ class HabitLog(db.Model):
    habit = db.relationship("Habit", back_populates="logs")
 
 class User(db.Model, UserMixin):
-   __tablename__="user"
-   id = db.Column(db.Integer, primary_key=True)
-   username = db.Column(db.String(80), unique=True, nullable=False)
-   password_hash = db.Column(db.String(128), nullable=False)
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
 
-   habits = db.relationship('Habit', backref="owner", lazy=True, cascade="all, delete-orphan")
+    habits = db.relationship('Habit', backref='owner', lazy=True, cascade="all, delete-orphan")
 
-@property
-def password(self):
-   raise AttributeError("password is not a readable attribute")
+    @property
+    def password(self):
+        raise AttributeError('password is not a readable attribute')
 
-@password.setter
-def password(self, plain_text_password):
-   self.password_hash = generate_password_hash(plain_text_password)
+    @password.setter
+    def password(self, plain_text_password):
+        self.password_hash = generate_password_hash(plain_text_password)
 
-def check_password(self, attempted_password):
-   return check_password_hash(self.password_hash, attempted_password)
+    def check_password(self, attempted_password):
+        return check_password_hash(self.password_hash, attempted_password)

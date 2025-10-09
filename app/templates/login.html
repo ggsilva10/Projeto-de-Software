@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+
+{% block content %}
+    <article>
+        <hgroup>
+            <h1>Acesse sua Conta</h1>
+            <h2>Continue sua jornada de bons hábitos.</h2>
+        </hgroup>
+        
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
+
+            <label for="username">{{ form.username.label }}</label>
+            {{ form.username(size=32, placeholder="Seu nome de usuário") }}
+
+            <label for="password">{{ form.password.label }}</label>
+            {{ form.password(size=32, placeholder="Sua senha") }}
+            
+            <br>
+            {{ form.submit() }}
+        </form>
+    </article>
+{% endblock %}

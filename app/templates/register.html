@@ -1,50 +1,45 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Controle de Hábitos</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css"/>
-</head>
-<body>
-    <main class="container">
-        <article>
-            <hgroup>
-                <h1>Crie sua Conta</h1>
-                <h2>Junte-se à nossa comunidade de hábitos.</h2>
-            </hgroup>
+{% extends 'base.html' %}
 
-            <form method="POST" novalidate>
-                {{ form.hidden_tag() }}
+{% block title %}
+    Cadastro
+{% endblock %}
 
-                <label for="username">{{ form.username.label }}</label>
-                {{ form.username(size=32, placeholder="Seu nome de usuário") }}
-                {% if form.username.errors %}
-                    {% for error in form.username.errors %}
-                        <small style="color: red;">{{ error }}</small>
-                    {% endfor %}
-                {% endif %}
+{% block content %}
+    <article>
+        <hgroup>
+            <h1>Crie sua Conta</h1>
+            <h2>Junte-se à nossa comunidade de hábitos.</h2>
+        </hgroup>
+        
+        <form method="POST" novalidate>
+            {{ form.hidden_tag() }}
 
-                <label for="password">{{ form.password.label }}</label>
-                {{ form.password(size=32, placeholder="Sua senha") }}
-                {% if form.password.errors %}
-                    {% for error in form.password.errors %}
-                        <small style="color: red;">{{ error }}</small>
-                    {% endfor %}
-                {% endif %}
+            <label for="username">{{ form.username.label }}</label>
+            {{ form.username(size=32, placeholder="Seu nome de usuário") }}
+            {% if form.username.errors %}
+                {% for error in form.username.errors %}
+                    <small style="color: red;">{{ error }}</small>
+                {% endfor %}
+            {% endif %}
 
-                <label for="password_confirm">{{ form.password_confirm.label }}</label>
-                {{ form.password_confirm(size=32, placeholder="Confirme sua senha") }}
-                {% if form.password_confirm.errors %}
-                    {% for error in form.password_confirm.errors %}
-                        <small style="color: red;">{{ error }}</small>
-                    {% endfor %}
-                {% endif %}
+            <label for="password">{{ form.password.label }}</label>
+            {{ form.password(size=32, placeholder="Sua senha segura") }}
+            {% if form.password.errors %}
+                {% for error in form.password.errors %}
+                    <small style="color: red;">{{ error }}</small>
+                {% endfor %}
+            {% endif %}
 
-                <br>
-                {{ form.submit(class="contrast") }}
-            </form>
-        </article>
-    </main>
-</body>
-</html>
+            <label for="password_confirm">{{ form.password_confirm.label }}</label>
+            {{ form.password_confirm(size=32, placeholder="Confirme sua senha") }}
+            {% if form.password_confirm.errors %}
+                {% for error in form.password_confirm.errors %}
+                    <small style="color: red;">{{ error }}</small>
+                {% endfor %}
+            {% endif %}
+
+            <br>
+            {{ form.submit(class="contrast") }}
+        </form>
+    </article>
+{% endblock %}
