@@ -1,5 +1,7 @@
 from app import create_app, db
 from flask_migrate import Migrate
+import webbrowser
+from threading import Timer
 
 app = create_app()
 migrate = Migrate(app, db)
@@ -12,4 +14,8 @@ def init_db_command():
     print("Banco de dados inicializado com sucesso.")
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    url_para_abrir = "http://127.0.0.1:5000/register"
+
+    Timer(1, lambda: webbrowser.open(url_para_abrir)).start()
+
+    app.run(debug=True, use_reloader=False)
