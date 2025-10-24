@@ -28,9 +28,10 @@
             <ul>
                 {% for habit in habits %}
                     <li>
-                        {{ habit.nome }}
+                        <strong>
+                            <a href="{{ url_for('routes.habit_details', habit_id=habit.id) }}">{{ habit.name }}</a> </strong>
                         <span style="float: right;">
-                            {% if habit.id in habitos_concluidos_hoje %}
+                            {% if habit.id in completed_habits_today %}
                                 <a role="button" class="secondary outline btn-sm" style="pointer-events: none; border-color: green; color: green;">
                                     ✅ Concluído
                                 </a>
@@ -44,8 +45,7 @@
                             </a>
                         </span>
                         <br>
-                        <small>Criado em: {{ habit.data_criacao.strftime('%d/%m/%Y') }}</small>
-                    </li>
+                        <small>Criado em: {{ habit.creation_date.strftime('%d/%m/%Y') }}</small> </li>
                 {% endfor %}
             </ul>
         {% else %}
