@@ -14,7 +14,7 @@ Este é o projeto desenvolvido para a disciplina de Projeto de Software. O objet
 
 * **AC1: Fundação e CRUD de Hábitos** - ✅ Concluída
 * **AC2: Sistema de Usuários e Personalização** - ✅ Concluída
-* **AC3: Visualização de Dados** - ⏳ Em Andamento
+* **AC3: Visualização de Dados** - ✅ Concluída
 
 ---
 
@@ -32,6 +32,12 @@ Este é o projeto desenvolvido para a disciplina de Projeto de Software. O objet
 * Proteção de rotas, permitindo que apenas usuários logados acessem a área de hábitos.
 * Associação de Hábitos a Usuários, garantindo que cada usuário só possa ver e gerenciar seus próprios dados.
 * Interface com navegação dinâmica, que se adapta ao status de login do usuário.
+
+### AC3 - Visualização de Dados
+* **Página de Detalhes do Hábito:** Criação de uma página dedicada para cada hábito, acessível a partir da lista principal.
+* **Calendário de Progresso:** Implementação de um calendário mensal na página de detalhes, destacando visualmente os dias em que o hábito foi concluído.
+* **Estatísticas Simples:** Cálculo e exibição de métricas de desempenho na página de detalhes, como "Total de Conclusões" e "Sequência Atual de Dias".
+* **Refatoração Completa:** Padronização de todo o código-fonte (modelos, rotas, templates) e estrutura do banco de dados para utilizar nomes em inglês, seguindo as melhores práticas de mercado.
 
 ---
 
