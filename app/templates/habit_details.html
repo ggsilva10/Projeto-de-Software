@@ -1,102 +1,135 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Detalhes de {{ habit.name }} {% endblock %}
+Detalhes de {{ habit.name }} {% endblock %}
 
 {% block head %}
-    {{ super() }} 
-    <style>
-        .calendar {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        .calendar th, .calendar td {
-            text-align: center;
-            padding: 0.75rem;
-            border: 1px solid var(--muted-border-color);
-        }
-        .calendar th {
-            font-size: 0.9em;
-            color: var(--muted-color);
-        }
-        .calendar td.day-zero {
-            background-color: var(--muted-border-color);
-            opacity: 0.5;
-        }
-        .calendar td.completed {
-            background-color: #28a745 !important;
-            color: white !important;
-            font-weight: bold;
-        }
-        .calendar td.today {
-            box-shadow: 0 0 0 2px var(--pico-primary) inset;
-        }
-    </style>
+{{ super() }}
+<style>
+    .calendar {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .calendar th,
+    .calendar td {
+        text-align: center;
+        padding: 0.75rem;
+        border: 1px solid var(--muted-border-color);
+    }
+
+    .calendar th {
+        font-size: 0.9em;
+        color: var(--muted-color);
+    }
+
+    .calendar td.day-zero {
+        background-color: var(--muted-border-color);
+        opacity: 0.5;
+    }
+
+    .calendar td.completed {
+        background-color: #28a745 !important;
+        color: white !important;
+        font-weight: bold;
+    }
+
+    .calendar td.today {
+        box-shadow: 0 0 0 2px var(--pico-primary) inset;
+    }
+</style>
 {% endblock %}
 
 
 {% block content %}
-    <hgroup>
-        <h1>{{ habit.name }}</h1> <h2>Histórico de Conclusões</h2>
-    </hgroup>
+<hgroup>
+    <h1>{{ habit.name }}</h1>
+    <h2>Histórico de Conclusões</h2>
+</hgroup>
 
-    <div class="grid">
-        <article style="text-align: center;">
-            <header><strong>Total de Conclusões</strong></header>
-            <h2>{{ total_completions }}</h2>
-        </article>
-        <article style="text-align: center;">
-            <header><strong>Sequência Atual</strong></header>
-            <h2>{{ current_streak }} dias</h2>
-        </article>
-    </div>
-
-    <article>
-        <header>
-            <strong>Calendário de Progresso ({{ calendar_title }})</strong>
-        </header>
-        
-        <table class="calendar">
-            <thead>
-                <tr>
-                    <th>Seg</th> <th>Ter</th> <th>Qua</th> <th>Qui</th> <th>Sex</th> <th>Sáb</th> <th>Dom</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for week in month_calendar %}
-                <tr>
-                    {% for day in week %}
-                        {% if day == 0 %}
-                            <td class="day-zero"></td>
-                        {% else %}
-                            {% set classes = [] %}
-                            {% if day == current_day_number %}
-                                {% set _ = classes.append('today') %}
-                            {% endif %}
-                            {% if day in completed_days %}
-                                {% set _ = classes.append('completed') %}
-                            {% endif %}
-                            
-                            <td class="{{ classes|join(' ') }}">{{ day }}</td>
-                        {% endif %}
-                    {% endfor %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+<div class="grid">
+    <article style="text-align: center;">
+        <header><strong>Total de Conclusões</strong></header>
+        <h2>{{ total_completions }}</h2>
     </article>
+    <article style="text-align: center;">
+        <header><strong>Sequência Atual</strong></header>
+        <h2>{{ current_streak }} dias</h2>
+    </article>
+</div>
 
-    <article>
-        <header>Datas em que foi concluído</header>
-        {% if logs %}
+<article>
+    <header>
+        <nav>
             <ul>
-                {% for log in logs %}
-                    <li>{{ log.creation_date.strftime('%d/%m/%Y') }}</li> {% endfor %}
+                <li>
+                    <a href="{{ url_for('routes.habit_details', habit_id=habit.id, year=prev_year, month=prev_month) }}"
+                        class="contrast outline btn-sm">
+                        &lt; Anterior
+                    </a>
+                </li>
             </ul>
-        {% else %}
-            <p>Este hábito ainda não foi concluído nenhuma vez.</p>
-        {% endif %}
-    </article>
+            <ul>
+                <li><strong>{{ calendar_title }}</strong></li>
+            </ul>
+            <ul>
+                <li>
+                    <a href="{{ url_for('routes.habit_details', habit_id=habit.id, year=next_year, month=next_month) }}"
+                        class="contrast outline btn-sm">
+                        Próximo &gt;
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-    <a href="{{ url_for('routes.home') }}" role="button" class="secondary">Voltar</a>
+    <table class="calendar">
+        <thead>
+            <tr>
+                <th>Seg</th>
+                <th>Ter</th>
+                <th>Qua</th>
+                <th>Qui</th>
+                <th>Sex</th>
+                <th>Sáb</th>
+                <th>Dom</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for week in month_calendar %}
+            <tr>
+                {% for day in week %}
+                {% if day == 0 %}
+                <td class="day-zero"></td>
+                {% else %}
+                {% set classes = [] %}
+                {% if day == current_day_number %}
+                {% set _ = classes.append('today') %}
+                {% endif %}
+                {% if day in completed_days %}
+                {% set _ = classes.append('completed') %}
+                {% endif %}
+
+                <td class="{{ classes|join(' ') }}">{{ day }}</td>
+                {% endif %}
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</article>
+
+<article>
+    <header>Datas em que foi concluído</header>
+    {% if logs %}
+    <ul>
+        {% for log in logs %}
+        <li>{{ log.creation_date.strftime('%d/%m/%Y') }}</li> {% endfor %}
+    </ul>
+    {% else %}
+    <p>Este hábito ainda não foi concluído nenhuma vez.</p>
+    {% endif %}
+</article>
+
+<a href="{{ url_for('routes.home') }}" role="button" class="secondary">Voltar</a>
 {% endblock %}

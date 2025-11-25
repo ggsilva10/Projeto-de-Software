@@ -1,55 +1,103 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Meus Hábitos
+Meus Hábitos
+{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <style>
+        .category-badge {
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.6em;
+            vertical-align: middle;
+            margin-left: 8px;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    </style>
 {% endblock %}
 
 {% block content %}
-    <hgroup>
-        <h1>Meu Sistema de Hábitos</h1>
-        <h2>Um passo de cada vez para uma vida melhor.</h2>
-    </hgroup>
+<hgroup>
+    <h1>Sistema de Hábitos</h1>
+    <h2>Um passo de cada vez para uma vida melhor.</h2>
+</hgroup>
 
-    <article>
-        <header>
-            <strong>Adicionar Novo Hábito</strong>
-        </header>
-        <form action="{{ url_for('routes.add_habit') }}" method="POST">
-            <input type="text" name="habit_name" placeholder="Ex: Ler 10 páginas de um livro" required>
-            <button type="submit">Adicionar Hábito</button>
-        </form>
-    </article>
+<article>
+    <header>
+        <strong>Adicionar Novo Hábito</strong>
+    </header>
 
-    <article>
-        <header>
-            <strong>Meus Hábitos</strong>
-        </header>
-        {% if habits %}
-            <ul>
-                {% for habit in habits %}
-                    <li>
-                        <strong>
-                            <a href="{{ url_for('routes.habit_details', habit_id=habit.id) }}">{{ habit.name }}</a> </strong>
-                        <span style="float: right;">
-                            {% if habit.id in completed_habits_today %}
-                                <a role="button" class="secondary outline btn-sm" style="pointer-events: none; border-color: green; color: green;">
-                                    ✅ Concluído
-                                </a>
-                            {% else %}
-                                <a href="{{ url_for('routes.complete_habit', habit_id=habit.id) }}" role="button" class="secondary outline btn-sm">
-                                    Concluir
-                                </a>
-                            {% endif %}
-                            <a href="{{ url_for('routes.delete_habit', habit_id=habit.id) }}" role="button" class="contrast outline btn-sm">
-                                Excluir
-                            </a>
-                        </span>
-                        <br>
-                        <small>Criado em: {{ habit.creation_date.strftime('%d/%m/%Y') }}</small> </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>Nenhum hábito cadastrado ainda. Comece adicionando um acima!</p>
-        {% endif %}
-    </article>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+
+        <div class="grid">
+            <div>
+                {{ form.name(placeholder="Ex: Ler 10 páginas") }}
+            </div>
+
+            <div>
+                {{ form.category_id() }}
+            </div>
+
+            <div>
+                {{ form.submit() }}
+            </div>
+        </div>
+    </form>
+</article>
+
+<article>
+    <header>
+        <strong>Meus Hábitos</strong>
+    </header>
+    {% if habits %}
+    <ul>
+        {% for habit in habits %}
+        <li>
+            <strong>
+                <a href="{{ url_for('routes.habit_details', habit_id=habit.id) }}">
+                    {{ habit.name }}
+                </a>
+        
+                {% if habit.category %}
+                <span class="category-badge" style="background-color: {{ habit.category.color }};">
+                    {{ habit.category.name }}
+                </span>
+                {% endif %}
+            </strong>
+            <span style="float: right;">
+                {% if habit.id in completed_habits_today %}
+                <a role="button" class="secondary outline btn-sm"
+                    style="pointer-events: none; border-color: green; color: green;">
+                    ✅ Concluído
+                </a>
+                {% else %}
+                <a href="{{ url_for('routes.complete_habit', habit_id=habit.id) }}" role="button"
+                    class="secondary outline btn-sm">
+                    Concluir
+                </a>
+                {% endif %}
+
+                <a href="{{ url_for('routes.edit_habit', habit_id=habit.id) }}" role="button" class="outline btn-sm">
+                    ✏️ Editar
+                </a>
+
+                <a href="{{ url_for('routes.delete_habit', habit_id=habit.id) }}" role="button"
+                    class="contrast outline btn-sm">
+                    Excluir
+                </a>
+            </span>
+            <br>
+            <small>Criado em: {{ habit.creation_date.strftime('%d/%m/%Y') }}</small>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nenhum hábito cadastrado ainda. Comece adicionando um acima!</p>
+    {% endif %}
+</article>
 {% endblock %}

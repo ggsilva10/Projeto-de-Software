@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField, SubmitField
 from wtforms.validators import DataRequired, Length, EqualTo, ValidationError
-from .models import User 
+from .models import User
+from wtforms import StringField, PasswordField, SubmitField, SelectField
 
 
 class RegisterForm(FlaskForm):
@@ -19,3 +20,8 @@ class LoginForm(FlaskForm):
     username = StringField("Usuário", validators=[DataRequired()])
     password = PasswordField("Senha", validators=[DataRequired()])
     submit = SubmitField("Entrar")
+
+class AddHabitForm(FlaskForm):
+    name = StringField('Nome do Hábito', validators=[DataRequired()])
+    category_id = SelectField('Categoria', coerce=int)
+    submit = SubmitField('Adicionar Hábito')

@@ -3,15 +3,22 @@ from . import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    color = db.Column(db.String(7), default='#007bff')
+    owner_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    habits = db.relationship('Habit', backref="category", lazy=True)
+
 class Habit(db.Model):
    __tablename__ = 'habits'
    id = db.Column(db.Integer, primary_key=True)
    name = db.Column(db.String(100), nullable=False)
    description = db.Column(db.String(200))
    creation_date = db.Column(db.Date, default=datetime.date.today)
-
    owner_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-
+   category_id = db.Column(db.Integer, db.ForeignKey('categories.id'), nullable=True)
    logs = db.relationship('HabitLog', back_populates='habit', lazy=True, cascade="all, delete-orphan")
 
 
@@ -30,6 +37,8 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(128), nullable=False)
 
     habits = db.relationship('Habit', backref='owner', lazy=True, cascade="all, delete-orphan")
+
+    categories = db.relationship('Category', backref='owner', lazy=True, cascade="all, delete-orphan")
 
     @property
     def password(self):
