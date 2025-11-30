@@ -15,6 +15,7 @@ Este é o projeto desenvolvido para a disciplina de Projeto de Software. O objet
 * **AC1: Fundação e CRUD de Hábitos** - ✅ Concluída
 * **AC2: Sistema de Usuários e Personalização** - ✅ Concluída
 * **AC3: Visualização de Dados** - ✅ Concluída
+* **P3: Entrega Final e Novas Funcionalidades** - ✅ Concluída
 
 ---
 
@@ -39,6 +40,12 @@ Este é o projeto desenvolvido para a disciplina de Projeto de Software. O objet
 * **Estatísticas Simples:** Cálculo e exibição de métricas de desempenho na página de detalhes, como "Total de Conclusões" e "Sequência Atual de Dias".
 * **Refatoração Completa:** Padronização de todo o código-fonte (modelos, rotas, templates) e estrutura do banco de dados para utilizar nomes em inglês, seguindo as melhores práticas de mercado.
 
+### P3 - Entrega Final (Prova)
+* **Categorias de Hábitos (Tags):** Implementação *Full-Stack* de um sistema de categorias. O usuário pode classificar seus hábitos por áreas (ex: Saúde, Estudos) que são exibidas com etiquetas coloridas dinâmicas. Inclui a geração automática de categorias padrão para novos usuários.
+* **Edição de Hábitos (Update):** Funcionalidade que permite corrigir ou alterar o nome de um hábito existente sem perder o histórico de conclusões.
+* **Navegação Histórica:** Melhoria no calendário de progresso, permitindo a navegação entre meses e anos anteriores/futuros através de rotas dinâmicas.
+* **Documentação Técnica:** Elaboração e inclusão de Diagramas UML (Diagrama de Classes e Diagrama de Casos de Uso) detalhando a arquitetura do sistema.
+
 ---
 
 ## 🚀 Como Rodar o Projeto
@@ -55,7 +62,7 @@ Este é o projeto desenvolvido para a disciplina de Projeto de Software. O objet
 ## 🛠️ Tecnologias
 * **Back-end:** Python, Flask
 * **Banco de Dados:** SQLite, Flask-SQLAlchemy, Flask-Migrate
-* **Front-end:** HTML, Pico.css, Jinja2
+* **Front-end:** HTML, CSS (Pico.css), Jinja2
 * **Autenticação:** Flask-Login, Flask-WTF
 * **Versionamento:** Git, GitHub
 * **Gerenciamento:** GitHub Projects (Kanban)
